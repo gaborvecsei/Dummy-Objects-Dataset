@@ -94,7 +94,8 @@ class DummyImage:
 
 class DummyObjectsDataset:
     @classmethod
-    def get_batch_data_iterator(cls, image_height, image_width, batch_size: int = 1, min_shapes=1, max_shapes=4):
+    def get_batch_data_iterator(cls, image_height, image_width, batch_size: int = 1, min_shapes=1, max_shapes=4) -> \
+    Tuple[np.ndarray, np.ndarray, np.ndarray]:
         while True:
             image_batch = []
             bboxes_batch = []
