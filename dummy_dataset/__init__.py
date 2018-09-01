@@ -1,0 +1,1 @@
+from dummy_dataset.dataset import DummyObjectsDataset
