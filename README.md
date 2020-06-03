@@ -1,12 +1,14 @@
 # Dummy Object Dataset
 
+**This tool is under development and not completed - contains lot of problems**
+
 The purpose of this "tool" is that we can easily debug our Machine Learning solutions for **object detection** (in the
 near future: **segmentation** and **keypoint detection**)
 
 I always had trouble finding small datasets where my model can easily overfit, or where I can check if it works
 as it is supposed to. So the best solution is: generate the simplest images in the fly.
 
-This tool is highly influenced by: [matterport/Mask_RCNN](https://github.com/matterport/Mask_RCNN/blob/master/samples/shapes/shapes.py#L63)
+This tool is highly influenced by the idea in: [matterport/Mask_RCNN](https://github.com/matterport/Mask_RCNN/blob/master/samples/shapes/shapes.py#L63)
 
 ## Sample images
 
@@ -30,14 +32,17 @@ We can change the min number of shapes, max number of shapes, image size, etc...
 ```
 import dummy_dataset as dds
 
-data_generator = dds.DummyObjectsDataset.get_batch_data_iterator(image_height=100,
-                                                                 image_width=100,
-                                                                 batch_size=32)
 
-for d in data_generator:
-    batch_images, batch_bboxes, batch_labels = d
-    print(batch_images.shape)
-    print(batch_bboxes.shape)
-    print(batch_labels.shape)
+image, bboxes, labels = DummyObjectsDataset.get_image_with_labels(image_height, image_width)
 
+# image shape: (image_height, image_width, 3)
+# bboxes shape: (n_boxes, 4) --> (x0, y0, x1, y1)
+# labels shape: (n_boxes, 1) --> int
+
+fig, ax = plt.subplots(1, 1)
+ax.imshow(image)
+for b in bboxes:
+    x0, y0, x1, y1 = b
+    rec = patches.Rectangle((x0, y0), x1-x0, y1-y0, fill=0)
+    ax.add_patch(rec)
 ```

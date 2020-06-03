@@ -29,7 +29,7 @@ class DummyShape:
         rnd_y = np.random.randint(margin, parent_image_width - margin - 1)
         rnd_size = np.random.randint(margin, parent_image_height // 4)
 
-        tmp_obj = cls(rnd_shape_type, rnd_shape_color, rnd_x, rnd_y, rnd_size, rnd_shape_type)
+        tmp_obj = cls(rnd_shape_type, rnd_shape_color, rnd_x, rnd_y, rnd_size, rnd_shape_type.value)
         return tmp_obj
 
     def draw_shape_on_image(self, image: np.ndarray) -> np.ndarray:
@@ -93,20 +93,26 @@ class DummyImage:
 
 
 class DummyObjectsDataset:
-    @classmethod
-    def get_batch_data_iterator(cls, image_height, image_width, batch_size: int = 1, min_shapes=1, max_shapes=4) -> \
-    Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    @staticmethod
+    def get_batch_data_iterator(image_height, image_width, batch_size: int = 1, min_shapes: int = 1,
+                                max_shapes: int = 4) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         while True:
             image_batch = []
             bboxes_batch = []
             labels_batch = []
 
             for i in range(batch_size):
-                dummy_image = DummyImage.random_image_init(image_height, image_width, min_shapes, max_shapes)
-                image = dummy_image.draw_image()
-                bboxes, labels = dummy_image.get_labels()
-
+                image, bboxes, labels = DummyObjectsDataset.get_image_with_labels(image_height, image_width,
+                                                                                  min_shapes=min_shapes,
+                                                                                  max_shapes=max_shapes)
                 image_batch.append(image)
                 bboxes_batch.append(bboxes)
                 labels_batch.append(labels)
             yield np.array(image_batch), np.array(bboxes_batch), np.array(labels_batch)
+
+    @staticmethod
+    def get_image_with_labels(image_height, image_width, min_shapes=1, max_shapes=4):
+        dummy_image = DummyImage.random_image_init(image_height, image_width, min_shapes, max_shapes)
+        image = dummy_image.draw_image()
+        bboxes, labels = dummy_image.get_labels()
+        return image, bboxes, labels

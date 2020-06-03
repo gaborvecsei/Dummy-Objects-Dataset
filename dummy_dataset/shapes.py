@@ -7,13 +7,14 @@ import numpy as np
 
 
 class ShapeTypes(Enum):
-    SQUARE = "square"
-    CIRCLE = "circle"
-    TRIANGLE = "triangle"
+    SQUARE = 0
+    CIRCLE = 1
+    TRIANGLE = 2
 
-    @classmethod
-    def has_value(cls, value):
-        return any(value == item.value for item in cls)
+    @staticmethod
+    def int_to_string(label_as_int):
+        d = {0: "square", 1: "circle", 2: "triangle"}
+        return d[label_as_int]
 
 
 class Shape:
