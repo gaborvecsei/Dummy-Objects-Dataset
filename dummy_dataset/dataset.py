@@ -79,6 +79,8 @@ class DummyImage:
         bboxes = []
         labels = []
 
+        nb_shapes = len(self.shapes)
+
         for s in self.shapes:
             x1 = s.x - s.size
             y1 = s.y - s.size
@@ -89,7 +91,7 @@ class DummyImage:
             bboxes.append(bbox)
             labels.append(s.label)
 
-        return np.array(bboxes), np.array(labels)
+        return np.array(bboxes).reshape(nb_shapes, 4), np.array(labels).reshape(nb_shapes, 1)
 
 
 class DummyObjectsDataset:
