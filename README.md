@@ -30,10 +30,10 @@ We can change the min number of shapes, max number of shapes, image size, etc...
 ## Usage
 
 ```
-import dummy_dataset as dds
+import dummy_dataset
 
 
-image, bboxes, labels = DummyObjectsDataset.get_image_with_labels(image_height, image_width)
+image, bboxes, labels = dummy_dataset.DummyObjectsDataset.get_image_with_labels(image_height, image_width)
 
 # image shape: (image_height, image_width, 3)
 # bboxes shape: (n_boxes, 4) --> (x0, y0, x1, y1)
